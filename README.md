@@ -18,3 +18,20 @@ Lumity.Resource
 ```
 
 Version 0.1.0 provides the manager bootstrap foundation and manager skeletons. Full manager features are intentionally added in later releases.
+
+## Custom Managers
+
+Custom managers inherit `ManagerBase`. Place them under `LumityBootstrap`, or create them during startup with:
+
+```csharp
+Lumity.EnsureManager<MyCustomManager>();
+```
+
+Built-in manager properties and generated custom manager properties use cached static fields. They are assigned during startup and do not perform a registry lookup on every access.
+
+For HybridCLR hot update projects, generate a project-side facade such as `GameLumity` into the hot update assembly:
+
+```csharp
+GameLumity.Initialize();
+GameLumity.MyCustom.DoSomething();
+```
