@@ -17,7 +17,7 @@ Lumity.UI
 Lumity.Resource
 ```
 
-Version 0.1.0 provides the manager bootstrap foundation and manager skeletons. Full manager features are intentionally added in later releases.
+Version 0.2.0 provides the manager bootstrap foundation, manager skeletons, cached static manager access, and custom manager support. Full manager features are intentionally added in later releases.
 
 ## Custom Managers
 

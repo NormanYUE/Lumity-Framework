@@ -17,7 +17,7 @@ Lumity.UI
 Lumity.Resource
 ```
 
-0.1.0 版本提供 Manager 启动基础和内置 Manager 骨架。完整的 Manager 功能会在后续版本逐步加入。
+0.2.0 版本提供 Manager 启动基础、内置 Manager 骨架、静态缓存访问和自定义 Manager 支持。完整的 Manager 功能会在后续版本逐步加入。
 
 ## 自定义 Manager
 
