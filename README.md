@@ -1,5 +1,20 @@
 # Lumity Framework
 
+[中文](README.zh-CN.md)
+
 Lumity Framework is a DLL-only Unity package for Unity 2022.3.62f2 or newer.
 
-Add `LumityBootstrap` to the first scene, then access built-in managers through the static `Lumity` facade.
+## Usage
+
+Add `LumityBootstrap` to the first scene. Built-in managers are registered under the bootstrap and can be accessed through the global `Lumity` facade:
+
+```csharp
+Lumity.Event
+Lumity.ObjectPool
+Lumity.Config
+Lumity.Fsm
+Lumity.UI
+Lumity.Resource
+```
+
+Version 0.1.0 provides the manager bootstrap foundation and manager skeletons. Full manager features are intentionally added in later releases.
