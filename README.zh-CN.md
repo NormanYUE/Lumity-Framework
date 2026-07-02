@@ -35,3 +35,20 @@ Lumity.EnsureManager<MyCustomManager>();
 GameLumity.Initialize();
 GameLumity.MyCustom.DoSomething();
 ```
+
+## Class Pool
+
+使用 `ClassPool<T>` 可以池化纯 C# 对象：
+
+```csharp
+var pool = new ClassPool<MyItem>();
+var item = pool.Rent();
+pool.Release(item);
+```
+
+类型可以实现 `IPoolable`，接收 `OnRent()` 和 `OnReturn()` 回调。`ObjectPoolManager` 也提供按类型管理的 class 池：
+
+```csharp
+var item = Lumity.ObjectPool.Rent<MyItem>();
+Lumity.ObjectPool.Release(item);
+```

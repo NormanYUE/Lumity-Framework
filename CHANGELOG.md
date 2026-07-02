@@ -7,6 +7,8 @@
 - Add custom manager lookup and ensure APIs.
 - Add cached static manager access for built-in managers.
 - Add `GameLumity` source generation core for cached custom manager facades.
+- Add `ClassPool<T>` and `IPoolable` as pure C# pooling utilities.
+- Add typed class pool access through `ObjectPoolManager`.
 
 ## 0.1.0
 

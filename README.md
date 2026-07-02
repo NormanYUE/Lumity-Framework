@@ -35,3 +35,20 @@ For HybridCLR hot update projects, generate a project-side facade such as `GameL
 GameLumity.Initialize();
 GameLumity.MyCustom.DoSomething();
 ```
+
+## Class Pool
+
+Use `ClassPool<T>` for pure C# object pooling:
+
+```csharp
+var pool = new ClassPool<MyItem>();
+var item = pool.Rent();
+pool.Release(item);
+```
+
+Types can implement `IPoolable` to receive `OnRent()` and `OnReturn()` callbacks. `ObjectPoolManager` also exposes typed class pools:
+
+```csharp
+var item = Lumity.ObjectPool.Rent<MyItem>();
+Lumity.ObjectPool.Release(item);
+```
