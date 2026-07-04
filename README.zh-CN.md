@@ -17,7 +17,7 @@ Lumity.UI
 Lumity.Resource
 ```
 
-0.2.0 版本提供 Manager 启动基础、内置 Manager 骨架、静态缓存访问和自定义 Manager 支持。完整的 Manager 功能会在后续版本逐步加入。
+0.3.0 版本新增 ResourceManager（集成 Addressables）、GameObjectPool（预制体池化）、ConfigTable（类型安全配置表）和 EventManager 性能优化。
 
 ## 自定义 Manager
 
@@ -51,4 +51,46 @@ pool.Release(item);
 ```csharp
 var item = Lumity.ObjectPool.Rent<MyItem>();
 Lumity.ObjectPool.Release(item);
+```
+
+## GameObject Pool
+
+使用 `GameObjectPool` 池化预制体实例：
+
+```csharp
+var pool = Lumity.ObjectPool.GetGameObjectPool("Prefabs/Bullet");
+pool.WarmUp(100); // 预创建 100 个实例
+
+var bullet = pool.Rent(position, rotation);
+pool.Release(bullet);
+```
+
+## Resource Manager
+
+使用 `ResourceManager` 进行基于 Addressables 的资源加载：
+
+```csharp
+// 异步加载
+var handle = Lumity.Resource.LoadAsync<GameObject>("Prefabs/Enemy");
+handle.BindTo(gameObject); // gameObject 销毁时自动释放
+
+// 同步加载
+var handle = Lumity.Resource.LoadSync<GameObject>("Prefabs/Enemy");
+
+// 批量加载
+var handles = Lumity.Resource.LoadAssets<GameObject>("Enemies");
+```
+
+## Config Table
+
+使用 `ConfigTable<T,TKey>` 进行类型安全的配置数据访问：
+
+```csharp
+var table = new ConfigTable<EnemyConfig, int>(
+    row => row.Id,
+    new[] { new EnemyConfig(1, "Slime", 100) }
+);
+Lumity.Config.RegisterTable(table);
+
+var enemy = Lumity.Config.Get<EnemyConfig>(1);
 ```

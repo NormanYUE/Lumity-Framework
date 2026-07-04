@@ -17,7 +17,7 @@ Lumity.UI
 Lumity.Resource
 ```
 
-Version 0.2.0 provides the manager bootstrap foundation, manager skeletons, cached static manager access, and custom manager support. Full manager features are intentionally added in later releases.
+Version 0.3.0 adds ResourceManager with Addressables integration, GameObjectPool for Prefab pooling, ConfigTable for type-safe config access, and EventManager performance improvements.
 
 ## Custom Managers
 
@@ -51,4 +51,46 @@ Types can implement `IPoolable` to receive `OnRent()` and `OnReturn()` callbacks
 ```csharp
 var item = Lumity.ObjectPool.Rent<MyItem>();
 Lumity.ObjectPool.Release(item);
+```
+
+## GameObject Pool
+
+Use `GameObjectPool` for Prefab instance pooling:
+
+```csharp
+var pool = Lumity.ObjectPool.GetGameObjectPool("Prefabs/Bullet");
+pool.WarmUp(100); // Pre-create 100 instances
+
+var bullet = pool.Rent(position, rotation);
+pool.Release(bullet);
+```
+
+## Resource Manager
+
+Use `ResourceManager` for Addressables-based resource loading:
+
+```csharp
+// Async loading
+var handle = Lumity.Resource.LoadAsync<GameObject>("Prefabs/Enemy");
+handle.BindTo(gameObject); // Auto-release when gameObject is destroyed
+
+// Sync loading
+var handle = Lumity.Resource.LoadSync<GameObject>("Prefabs/Enemy");
+
+// Batch loading
+var handles = Lumity.Resource.LoadAssets<GameObject>("Enemies");
+```
+
+## Config Table
+
+Use `ConfigTable<T,TKey>` for type-safe configuration data:
+
+```csharp
+var table = new ConfigTable<EnemyConfig, int>(
+    row => row.Id,
+    new[] { new EnemyConfig(1, "Slime", 100) }
+);
+Lumity.Config.RegisterTable(table);
+
+var enemy = Lumity.Config.Get<EnemyConfig>(1);
 ```
