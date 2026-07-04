@@ -17,9 +17,10 @@ Lumity.UI
 Lumity.Resource
 Lumity.Scene
 Lumity.Save
+Lumity.Timer
 ```
 
-Version 0.6.0 adds SaveManager for game save/load system with JSON serialization and auto-save support.
+Version 0.7.0 adds TimerManager for delayed and repeated actions with scene binding and pooled object binding support.
 
 ## Custom Managers
 
@@ -162,6 +163,40 @@ Lumity.Save.Delete();
 // Auto-save
 Lumity.Save.EnableAutoSave(30f); // Every 30 seconds
 Lumity.Save.DisableAutoSave();
+```
+
+## Timer Manager
+
+Use `TimerManager` for delayed and repeated actions:
+
+```csharp
+// Delay 5 seconds
+Lumity.Timer.Delay(5f, () => Debug.Log("5 seconds later"));
+
+// Repeat every 1 second, 10 times
+Lumity.Timer.Repeat(1f, () => Debug.Log("repeating"), 10);
+
+// Delay 2 seconds, then repeat every 0.5 seconds
+Lumity.Timer.DelayRepeat(2f, 0.5f, () => Debug.Log("delayed repeat"));
+
+// Delay 3 frames
+Lumity.Timer.DelayFrame(3, () => Debug.Log("3 frames later"));
+
+// Scene binding (auto-cancel on scene change)
+Lumity.Timer.Delay(10f, () => Debug.Log("Done"), bindToScene: true);
+
+// Pooled object binding (auto-cancel when object inactive)
+var bullet = pool.Rent();
+Lumity.Timer.Delay(3f, () => pool.Release(bullet), bullet);
+
+// Control
+var handle = Lumity.Timer.Delay(10f, () => {});
+handle.Pause();
+handle.Resume();
+handle.Cancel();
+
+// Time scale
+Lumity.Timer.TimeScale = 0.5f; // Half speed
 ```
 
 ## Config Table

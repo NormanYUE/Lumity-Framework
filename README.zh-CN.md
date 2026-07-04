@@ -17,9 +17,10 @@ Lumity.UI
 Lumity.Resource
 Lumity.Scene
 Lumity.Save
+Lumity.Timer
 ```
 
-0.6.0 版本新增 SaveManager 实现游戏存档系统，支持 JSON 序列化和自动保存。
+0.7.0 版本新增 TimerManager 实现延迟和重复调用功能，支持场景绑定和池化对象绑定。
 
 ## 自定义 Manager
 
@@ -162,6 +163,40 @@ Lumity.Save.Delete();
 // 自动保存
 Lumity.Save.EnableAutoSave(30f); // 每30秒自动保存
 Lumity.Save.DisableAutoSave();
+```
+
+## Timer Manager
+
+使用 `TimerManager` 实现延迟和重复调用：
+
+```csharp
+// 延迟 5 秒
+Lumity.Timer.Delay(5f, () => Debug.Log("5 秒后"));
+
+// 每 1 秒重复，共 10 次
+Lumity.Timer.Repeat(1f, () => Debug.Log("重复"), 10);
+
+// 延迟 2 秒后，每 0.5 秒重复
+Lumity.Timer.DelayRepeat(2f, 0.5f, () => Debug.Log("延迟重复"));
+
+// 延迟 3 帧
+Lumity.Timer.DelayFrame(3, () => Debug.Log("3 帧后"));
+
+// 场景绑定（场景切换时自动取消）
+Lumity.Timer.Delay(10f, () => Debug.Log("Done"), bindToScene: true);
+
+// 池化对象绑定（对象失效时自动取消）
+var bullet = pool.Rent();
+Lumity.Timer.Delay(3f, () => pool.Release(bullet), bullet);
+
+// 控制
+var handle = Lumity.Timer.Delay(10f, () => {});
+handle.Pause();
+handle.Resume();
+handle.Cancel();
+
+// 时间缩放
+Lumity.Timer.TimeScale = 0.5f; // 半速
 ```
 
 ## Config Table

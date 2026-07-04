@@ -2,6 +2,18 @@
 
 [中文](CHANGELOG.zh-CN.md)
 
+## 0.7.0
+
+- Add `TimerManager` for delayed and repeated actions.
+- Add `TimerHandle` struct with `IDisposable` support for type-safe timer control.
+- Add `Delay`/`Repeat`/`DelayRepeat`/`DelayFrame` timer APIs.
+- Add scene binding (auto-cancel on scene change).
+- Add pooled object binding (auto-cancel when object inactive).
+- Add `TimeScale` for global time scaling.
+- Add `Lumity.Timer` facade property for TimerManager access.
+- Fix `DelayRepeat` handle now correctly cancels spawned repeat timers.
+- Fix `Update` cleanup safety with try/finally for callback exceptions.
+
 ## 0.6.0
 
 - Add `SaveManager` for game save/load system with JSON serialization.
@@ -9,9 +21,6 @@
 - Add save/load events (`SaveCompleted`, `LoadCompleted`) via EventManager.
 - Add auto-save support with configurable interval.
 - Add `Lumity.Save` facade property for SaveManager access.
-- Fix auto-save not working after Load (missing `_currentFileName`).
-- Fix Load not publishing event when no save file exists.
-- Fix OnManagerShutdown cleanup safety with try/finally.
 
 ## 0.5.0
 
@@ -20,17 +29,12 @@
 - Add `UIConfig` ScriptableObject for panel configuration.
 - Add `UIPanelId` enum for type-safe panel access.
 - Support Panel/Popup/Toast panel types with automatic type detection.
-- Add popup stack management (HideTopPopup/HideAllPopups).
-- Add batch query APIs (AreVisible/IsAnyVisible).
-- Integrate ResourceManager for UI prefab loading.
-- Integrate EventManager for panel lifecycle events.
-- Fix popup stack order reversal on Hide/Close.
 
 ## 0.4.0
 
 - Add `SceneManager` for scene loading and management with Addressables integration.
 - Add single scene mode (`LoadScene`/`LoadSceneAsync`) and multi scene mode (`AddScene`/`RemoveScene`).
-- Add scene events (`SceneLoadStarted`, `SceneLoaded`, `SceneUnloaded`, `SceneProgress`, `SceneLoadFailed`) via EventManager.
+- Add scene events via EventManager.
 - Add `Lumity.Scene` facade property for SceneManager access.
 
 ## 0.3.0

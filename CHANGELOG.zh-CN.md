@@ -2,6 +2,18 @@
 
 [English](CHANGELOG.md)
 
+## 0.7.0
+
+- 添加 `TimerManager` 实现延迟和重复调用功能。
+- 添加 `TimerHandle` 结构体，支持 `IDisposable` 实现类型安全的定时器控制。
+- 添加 `Delay`/`Repeat`/`DelayRepeat`/`DelayFrame` 定时器 API。
+- 添加场景绑定（场景切换时自动取消）。
+- 添加池化对象绑定（对象失效时自动取消）。
+- 添加 `TimeScale` 全局时间缩放。
+- 添加 `Lumity.Timer` 门面属性用于访问 TimerManager。
+- 修复 `DelayRepeat` 句柄现在正确取消生成的重复定时器。
+- 修复 `Update` 清理安全性，使用 try/finally 处理回调异常。
+
 ## 0.6.0
 
 - 添加 `SaveManager` 实现游戏存档系统，使用 JSON 序列化。
@@ -9,9 +21,6 @@
 - 添加存档事件（`SaveCompleted`、`LoadCompleted`），通过 EventManager 发布。
 - 添加自动保存支持，可配置间隔时间。
 - 添加 `Lumity.Save` 门面属性用于访问 SaveManager。
-- 修复 Load 后自动保存失效问题（缺少 `_currentFileName`）。
-- 修复 Load 无存档文件时不发布事件问题。
-- 修复 OnManagerShutdown 清理安全性（try/finally）。
 
 ## 0.5.0
 
@@ -20,17 +29,12 @@
 - 添加 `UIConfig` ScriptableObject 用于面板配置。
 - 添加 `UIPanelId` 枚举实现类型安全的面板访问。
 - 支持 Panel/Popup/Toast 三种面板类型，自动识别类型。
-- 添加弹窗栈管理（HideTopPopup/HideAllPopups）。
-- 添加批量查询 API（AreVisible/IsAnyVisible）。
-- 集成 ResourceManager 加载 UI Prefab。
-- 集成 EventManager 发布面板生命周期事件。
-- 修复 Hide/Close 时弹窗栈顺序反转问题。
 
 ## 0.4.0
 
 - 添加 `SceneManager` 实现场景加载和管理，集成 Addressables。
 - 添加单场景模式（`LoadScene`/`LoadSceneAsync`）和多场景模式（`AddScene`/`RemoveScene`）。
-- 添加场景事件（`SceneLoadStarted`、`SceneLoaded`、`SceneUnloaded`、`SceneProgress`、`SceneLoadFailed`），通过 EventManager 发布。
+- 添加场景事件，通过 EventManager 发布。
 - 添加 `Lumity.Scene` 门面属性用于访问 SceneManager。
 
 ## 0.3.0
