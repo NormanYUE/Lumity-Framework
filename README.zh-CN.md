@@ -18,7 +18,7 @@ Lumity.Resource
 Lumity.Scene
 ```
 
-0.4.0 版本新增 SceneManager 实现场景加载和管理，集成 Addressables 和 EventManager 事件通知。
+0.5.0 版本重写 UIManager，提供完整的 UI 面板管理系统，支持 Panel/Popup/Toast 类型，配置驱动。
 
 ## 自定义 Manager
 
@@ -100,12 +100,32 @@ Lumity.Scene.RemoveScene("Scenes/UI");
 string active = Lumity.Scene.ActiveScene;
 var loaded = Lumity.Scene.LoadedScenes;
 bool loading = Lumity.Scene.IsLoading;
+```
 
-// 监听场景事件
-Lumity.Event.Subscribe<SceneLoadedEvent>("SceneLoaded", e =>
-{
-    Debug.Log($"场景 {e.Address} 加载完成");
-});
+## UI Manager
+
+使用 `UIManager` 进行完整的 UI 面板管理：
+
+```csharp
+// 配置 UI（启动时设置）
+Lumity.UI.SetConfig(uiConfig);
+
+// 显示面板（自动根据配置识别类型）
+Lumity.UI.Show(UIPanelId.MainMenu);      // Panel 类型
+Lumity.UI.Show(UIPanelId.Settings);      // Popup 类型
+Lumity.UI.Show(UIPanelId.GameSaved);     // Toast 类型
+
+// 隐藏/关闭
+Lumity.UI.Hide(UIPanelId.MainMenu);
+Lumity.UI.Close(UIPanelId.Settings);
+
+// 弹窗栈
+Lumity.UI.HideTopPopup();
+Lumity.UI.HideAllPopups();
+
+// 查询
+bool visible = Lumity.UI.IsVisible(UIPanelId.MainMenu);
+bool anyVisible = Lumity.UI.IsAnyVisible(UIPanelId.Settings, UIPanelId.PauseMenu);
 ```
 
 ## Config Table

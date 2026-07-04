@@ -2,14 +2,25 @@
 
 [English](CHANGELOG.md)
 
+## 0.5.0
+
+- 重写 `UIManager`，提供完整的 UI 面板管理系统。
+- 添加 `UIPanel` 基类，支持生命周期回调（OnShow/OnHide/OnClose）。
+- 添加 `UIConfig` ScriptableObject 用于面板配置。
+- 添加 `UIPanelId` 枚举实现类型安全的面板访问。
+- 支持 Panel/Popup/Toast 三种面板类型，自动识别类型。
+- 添加弹窗栈管理（HideTopPopup/HideAllPopups）。
+- 添加批量查询 API（AreVisible/IsAnyVisible）。
+- 集成 ResourceManager 加载 UI Prefab。
+- 集成 EventManager 发布面板生命周期事件。
+- 修复 Hide/Close 时弹窗栈顺序反转问题。
+
 ## 0.4.0
 
 - 添加 `SceneManager` 实现场景加载和管理，集成 Addressables。
 - 添加单场景模式（`LoadScene`/`LoadSceneAsync`）和多场景模式（`AddScene`/`RemoveScene`）。
 - 添加场景事件（`SceneLoadStarted`、`SceneLoaded`、`SceneUnloaded`、`SceneProgress`、`SceneLoadFailed`），通过 EventManager 发布。
 - 添加 `Lumity.Scene` 门面属性用于访问 SceneManager。
-- 修复 SceneManager 同步包装器使用 `WaitForCompletion()` 替代 `GetAwaiter().GetResult()`。
-- 修复 SceneManager Addressables 回退路径改为抛出异常而非错误发布成功事件。
 
 ## 0.3.0
 
@@ -18,8 +29,6 @@
 - 添加 `GameObjectPool` 实现预制体实例池化，支持预热。
 - 添加 `ConfigTable<T,TKey>` 实现类型安全的配置数据访问。
 - 优化 `EventManager` 性能，用类型化委托替代 `DynamicInvoke` 反射调用。
-- 修复 `EventManager.Flush` 无限循环风险，使用队列快照模式。
-- 修复 `ResourceManager.LoadAssets` 和 `LoadAssetsAsync` 缺少操作状态检查。
 
 ## 0.2.0
 

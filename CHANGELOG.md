@@ -2,14 +2,25 @@
 
 [中文](CHANGELOG.zh-CN.md)
 
+## 0.5.0
+
+- Rewrite `UIManager` with complete panel management system.
+- Add `UIPanel` base class with lifecycle callbacks (OnShow/OnHide/OnClose).
+- Add `UIConfig` ScriptableObject for panel configuration.
+- Add `UIPanelId` enum for type-safe panel access.
+- Support Panel/Popup/Toast panel types with automatic type detection.
+- Add popup stack management (HideTopPopup/HideAllPopups).
+- Add batch query APIs (AreVisible/IsAnyVisible).
+- Integrate ResourceManager for UI prefab loading.
+- Integrate EventManager for panel lifecycle events.
+- Fix popup stack order reversal on Hide/Close.
+
 ## 0.4.0
 
 - Add `SceneManager` for scene loading and management with Addressables integration.
 - Add single scene mode (`LoadScene`/`LoadSceneAsync`) and multi scene mode (`AddScene`/`RemoveScene`).
 - Add scene events (`SceneLoadStarted`, `SceneLoaded`, `SceneUnloaded`, `SceneProgress`, `SceneLoadFailed`) via EventManager.
 - Add `Lumity.Scene` facade property for SceneManager access.
-- Fix SceneManager sync wrappers to use `WaitForCompletion()` instead of `GetAwaiter().GetResult()`.
-- Fix SceneManager Addressables fallback to throw instead of incorrectly publishing success events.
 
 ## 0.3.0
 
@@ -18,8 +29,6 @@
 - Add `GameObjectPool` for Prefab instance pooling with warmup support.
 - Add `ConfigTable<T,TKey>` for type-safe configuration data access.
 - Improve `EventManager` performance by replacing `DynamicInvoke` with typed delegates.
-- Fix `EventManager.Flush` infinite loop risk by snapshotting queue before dispatch.
-- Fix `ResourceManager.LoadAssets` and `LoadAssetsAsync` missing operation status checks.
 
 ## 0.2.0
 

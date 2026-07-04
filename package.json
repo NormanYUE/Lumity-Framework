@@ -1,6 +1,6 @@
 {
   "name": "com.lumity.framework",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "displayName": "Lumity Framework",
   "description": "DLL-only Unity framework package for Lumity.",
   "unity": "2022.3",

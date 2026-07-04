@@ -18,7 +18,7 @@ Lumity.Resource
 Lumity.Scene
 ```
 
-Version 0.4.0 adds SceneManager for scene loading and management, with Addressables integration and EventManager event notifications.
+Version 0.5.0 adds UIManager with complete panel management system, supporting Panel/Popup/Toast types with configuration-driven approach.
 
 ## Custom Managers
 
@@ -100,12 +100,32 @@ Lumity.Scene.RemoveScene("Scenes/UI");
 string active = Lumity.Scene.ActiveScene;
 var loaded = Lumity.Scene.LoadedScenes;
 bool loading = Lumity.Scene.IsLoading;
+```
 
-// Listen to scene events
-Lumity.Event.Subscribe<SceneLoadedEvent>("SceneLoaded", e =>
-{
-    Debug.Log($"Scene {e.Address} loaded");
-});
+## UI Manager
+
+Use `UIManager` for complete UI panel management:
+
+```csharp
+// Configure UI (setup once)
+Lumity.UI.SetConfig(uiConfig);
+
+// Show panels (auto-detect type from config)
+Lumity.UI.Show(UIPanelId.MainMenu);      // Panel type
+Lumity.UI.Show(UIPanelId.Settings);      // Popup type
+Lumity.UI.Show(UIPanelId.GameSaved);     // Toast type
+
+// Hide/Close
+Lumity.UI.Hide(UIPanelId.MainMenu);
+Lumity.UI.Close(UIPanelId.Settings);
+
+// Popup stack
+Lumity.UI.HideTopPopup();
+Lumity.UI.HideAllPopups();
+
+// Query
+bool visible = Lumity.UI.IsVisible(UIPanelId.MainMenu);
+bool anyVisible = Lumity.UI.IsAnyVisible(UIPanelId.Settings, UIPanelId.PauseMenu);
 ```
 
 ## Config Table
