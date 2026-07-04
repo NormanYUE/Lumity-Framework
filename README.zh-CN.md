@@ -15,9 +15,10 @@ Lumity.Config
 Lumity.Fsm
 Lumity.UI
 Lumity.Resource
+Lumity.Scene
 ```
 
-0.3.0 版本新增 ResourceManager（集成 Addressables）、GameObjectPool（预制体池化）、ConfigTable（类型安全配置表）和 EventManager 性能优化。
+0.4.0 版本新增 SceneManager 实现场景加载和管理，集成 Addressables 和 EventManager 事件通知。
 
 ## 自定义 Manager
 
@@ -79,6 +80,32 @@ var handle = Lumity.Resource.LoadSync<GameObject>("Prefabs/Enemy");
 
 // 批量加载
 var handles = Lumity.Resource.LoadAssets<GameObject>("Enemies");
+```
+
+## Scene Manager
+
+使用 `SceneManager` 进行场景加载和管理：
+
+```csharp
+// 单场景模式
+Lumity.Scene.LoadScene("Scenes/MainMenu");
+await Lumity.Scene.LoadSceneAsync("Scenes/Game");
+
+// 多场景模式
+Lumity.Scene.AddScene("Scenes/UI");
+Lumity.Scene.AddScene("Scenes/Environment");
+Lumity.Scene.RemoveScene("Scenes/UI");
+
+// 查询
+string active = Lumity.Scene.ActiveScene;
+var loaded = Lumity.Scene.LoadedScenes;
+bool loading = Lumity.Scene.IsLoading;
+
+// 监听场景事件
+Lumity.Event.Subscribe<SceneLoadedEvent>("SceneLoaded", e =>
+{
+    Debug.Log($"场景 {e.Address} 加载完成");
+});
 ```
 
 ## Config Table

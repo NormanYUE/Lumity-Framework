@@ -2,6 +2,15 @@
 
 [English](CHANGELOG.md)
 
+## 0.4.0
+
+- 添加 `SceneManager` 实现场景加载和管理，集成 Addressables。
+- 添加单场景模式（`LoadScene`/`LoadSceneAsync`）和多场景模式（`AddScene`/`RemoveScene`）。
+- 添加场景事件（`SceneLoadStarted`、`SceneLoaded`、`SceneUnloaded`、`SceneProgress`、`SceneLoadFailed`），通过 EventManager 发布。
+- 添加 `Lumity.Scene` 门面属性用于访问 SceneManager。
+- 修复 SceneManager 同步包装器使用 `WaitForCompletion()` 替代 `GetAwaiter().GetResult()`。
+- 修复 SceneManager Addressables 回退路径改为抛出异常而非错误发布成功事件。
+
 ## 0.3.0
 
 - 添加 `ResourceManager`，集成 Addressables 实现异步/同步资源加载。

@@ -15,9 +15,10 @@ Lumity.Config
 Lumity.Fsm
 Lumity.UI
 Lumity.Resource
+Lumity.Scene
 ```
 
-Version 0.3.0 adds ResourceManager with Addressables integration, GameObjectPool for Prefab pooling, ConfigTable for type-safe config access, and EventManager performance improvements.
+Version 0.4.0 adds SceneManager for scene loading and management, with Addressables integration and EventManager event notifications.
 
 ## Custom Managers
 
@@ -79,6 +80,32 @@ var handle = Lumity.Resource.LoadSync<GameObject>("Prefabs/Enemy");
 
 // Batch loading
 var handles = Lumity.Resource.LoadAssets<GameObject>("Enemies");
+```
+
+## Scene Manager
+
+Use `SceneManager` for scene loading and management:
+
+```csharp
+// Single scene mode
+Lumity.Scene.LoadScene("Scenes/MainMenu");
+await Lumity.Scene.LoadSceneAsync("Scenes/Game");
+
+// Multi scene mode
+Lumity.Scene.AddScene("Scenes/UI");
+Lumity.Scene.AddScene("Scenes/Environment");
+Lumity.Scene.RemoveScene("Scenes/UI");
+
+// Query
+string active = Lumity.Scene.ActiveScene;
+var loaded = Lumity.Scene.LoadedScenes;
+bool loading = Lumity.Scene.IsLoading;
+
+// Listen to scene events
+Lumity.Event.Subscribe<SceneLoadedEvent>("SceneLoaded", e =>
+{
+    Debug.Log($"Scene {e.Address} loaded");
+});
 ```
 
 ## Config Table

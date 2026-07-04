@@ -2,6 +2,15 @@
 
 [中文](CHANGELOG.zh-CN.md)
 
+## 0.4.0
+
+- Add `SceneManager` for scene loading and management with Addressables integration.
+- Add single scene mode (`LoadScene`/`LoadSceneAsync`) and multi scene mode (`AddScene`/`RemoveScene`).
+- Add scene events (`SceneLoadStarted`, `SceneLoaded`, `SceneUnloaded`, `SceneProgress`, `SceneLoadFailed`) via EventManager.
+- Add `Lumity.Scene` facade property for SceneManager access.
+- Fix SceneManager sync wrappers to use `WaitForCompletion()` instead of `GetAwaiter().GetResult()`.
+- Fix SceneManager Addressables fallback to throw instead of incorrectly publishing success events.
+
 ## 0.3.0
 
 - Add `ResourceManager` with Addressables integration for async/sync resource loading.
