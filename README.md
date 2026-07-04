@@ -16,9 +16,10 @@ Lumity.Fsm
 Lumity.UI
 Lumity.Resource
 Lumity.Scene
+Lumity.Save
 ```
 
-Version 0.5.0 adds UIManager with complete panel management system, supporting Panel/Popup/Toast types with configuration-driven approach.
+Version 0.6.0 adds SaveManager for game save/load system with JSON serialization and auto-save support.
 
 ## Custom Managers
 
@@ -126,6 +127,41 @@ Lumity.UI.HideAllPopups();
 // Query
 bool visible = Lumity.UI.IsVisible(UIPanelId.MainMenu);
 bool anyVisible = Lumity.UI.IsAnyVisible(UIPanelId.Settings, UIPanelId.PauseMenu);
+```
+
+## Save Manager
+
+Use `SaveManager` for game save/load system:
+
+```csharp
+// Define save data
+[Serializable]
+public class GameSaveData : SaveDataBase
+{
+    public int Level;
+    public int Score;
+
+    protected override void OnInitialize()
+    {
+        Level = 1;
+        Score = 0;
+    }
+}
+
+// Save
+var data = new GameSaveData { Level = 5, Score = 100 };
+Lumity.Save.Save(data);
+
+// Load (auto-initializes on first load)
+var loaded = Lumity.Save.Load<GameSaveData>();
+
+// Query
+bool exists = Lumity.Save.Exists();
+Lumity.Save.Delete();
+
+// Auto-save
+Lumity.Save.EnableAutoSave(30f); // Every 30 seconds
+Lumity.Save.DisableAutoSave();
 ```
 
 ## Config Table

@@ -2,6 +2,17 @@
 
 [中文](CHANGELOG.zh-CN.md)
 
+## 0.6.0
+
+- Add `SaveManager` for game save/load system with JSON serialization.
+- Add `SaveDataBase` base class with lifecycle callbacks (OnInitialize/OnBeforeSave/OnAfterLoad).
+- Add save/load events (`SaveCompleted`, `LoadCompleted`) via EventManager.
+- Add auto-save support with configurable interval.
+- Add `Lumity.Save` facade property for SaveManager access.
+- Fix auto-save not working after Load (missing `_currentFileName`).
+- Fix Load not publishing event when no save file exists.
+- Fix OnManagerShutdown cleanup safety with try/finally.
+
 ## 0.5.0
 
 - Rewrite `UIManager` with complete panel management system.

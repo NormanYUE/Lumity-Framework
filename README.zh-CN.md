@@ -16,9 +16,10 @@ Lumity.Fsm
 Lumity.UI
 Lumity.Resource
 Lumity.Scene
+Lumity.Save
 ```
 
-0.5.0 版本重写 UIManager，提供完整的 UI 面板管理系统，支持 Panel/Popup/Toast 类型，配置驱动。
+0.6.0 版本新增 SaveManager 实现游戏存档系统，支持 JSON 序列化和自动保存。
 
 ## 自定义 Manager
 
@@ -126,6 +127,41 @@ Lumity.UI.HideAllPopups();
 // 查询
 bool visible = Lumity.UI.IsVisible(UIPanelId.MainMenu);
 bool anyVisible = Lumity.UI.IsAnyVisible(UIPanelId.Settings, UIPanelId.PauseMenu);
+```
+
+## Save Manager
+
+使用 `SaveManager` 实现游戏存档系统：
+
+```csharp
+// 定义存档数据
+[Serializable]
+public class GameSaveData : SaveDataBase
+{
+    public int Level;
+    public int Score;
+
+    protected override void OnInitialize()
+    {
+        Level = 1;
+        Score = 0;
+    }
+}
+
+// 保存
+var data = new GameSaveData { Level = 5, Score = 100 };
+Lumity.Save.Save(data);
+
+// 加载（首次自动调用 OnInitialize）
+var loaded = Lumity.Save.Load<GameSaveData>();
+
+// 查询
+bool exists = Lumity.Save.Exists();
+Lumity.Save.Delete();
+
+// 自动保存
+Lumity.Save.EnableAutoSave(30f); // 每30秒自动保存
+Lumity.Save.DisableAutoSave();
 ```
 
 ## Config Table

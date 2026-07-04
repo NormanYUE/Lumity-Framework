@@ -2,6 +2,17 @@
 
 [English](CHANGELOG.md)
 
+## 0.6.0
+
+- 添加 `SaveManager` 实现游戏存档系统，使用 JSON 序列化。
+- 添加 `SaveDataBase` 基类，支持生命周期回调（OnInitialize/OnBeforeSave/OnAfterLoad）。
+- 添加存档事件（`SaveCompleted`、`LoadCompleted`），通过 EventManager 发布。
+- 添加自动保存支持，可配置间隔时间。
+- 添加 `Lumity.Save` 门面属性用于访问 SaveManager。
+- 修复 Load 后自动保存失效问题（缺少 `_currentFileName`）。
+- 修复 Load 无存档文件时不发布事件问题。
+- 修复 OnManagerShutdown 清理安全性（try/finally）。
+
 ## 0.5.0
 
 - 重写 `UIManager`，提供完整的 UI 面板管理系统。
