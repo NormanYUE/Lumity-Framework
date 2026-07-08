@@ -2,6 +2,15 @@
 
 [中文](CHANGELOG.zh-CN.md)
 
+## 0.8.0
+
+- Add `BlackboardManager` for shared typed key-value storage across FSM and BT systems.
+- Add `FsmManager` with hierarchical state machine (HFSM), event-driven and condition-driven transitions, cooldowns, and ClassPool integration.
+- Add `BehaviorTreeManager` with composites (Sequence, Selector, Parallel), decorators (Inverter, Repeater, UntilFail, Cooldown), and leaves (Condition, Action, Wait).
+- Add `Lumity.Blackboard`, `Lumity.BT` facade properties.
+- Add `LumityBootstrap` registration for BlackboardManager and BehaviorTreeManager.
+- Add `ManagerBase.Quitting` guard to suppress false error logs during application shutdown.
+
 ## 0.2.0
 
 - Add custom manager lookup and ensure APIs.
