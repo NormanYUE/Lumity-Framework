@@ -18,63 +18,9 @@ Lumity.Resource     // ResourceManager
 Lumity.Scene        // SceneManager
 Lumity.Save         // SaveManager
 Lumity.Timer        // TimerManager
-Lumity.Blackboard   // BlackboardManager
+Lumity.Web          // WebManager
 Lumity.BT           // BehaviorTreeManager
-```
-
-## 黑板系统
-
-为 FSM 和 BT 系统提供共享的类型安全键值存储：
-
-```csharp
-var bb = Lumity.Blackboard.Create("enemy_001", "Fsm", "enemy_001");
-bb.Set("hp", 100);
-bb.Set("target", playerTransform);
-int hp = bb.Get<int>("hp");
-```
-
-## 状态机
-
-支持分层状态机（HFSM）、事件驱动和条件驱动转换：
-
-```csharp
-var config = new FsmConfig()
-    .AddState("Idle", s => {
-        s.OnEnter = fsm => Debug.Log("空闲");
-        s.OnUpdate = (fsm, dt) => { /* ... */ };
-    })
-    .AddState("Chase")
-    .AddState("Attack")
-    .AddTransition("Idle", "Chase", new Transition {
-        Condition = bb => bb.GetOrDefault("enemyNearby", false)
-    })
-    .AddTransition("Chase", "Attack", new Transition {
-        TriggerEvent = "InRange"
-    })
-    .SetInitialState("Idle");
-
-var fsm = Lumity.Fsm.Create(config, "enemy_ai");
-fsm.SetCondition("enemyNearby", true);
-fsm.SendEvent("InRange");
-```
-
-## 行为树
-
-组合节点、装饰节点和叶子节点，用于 AI 决策：
-
-```csharp
-var tree = Lumity.BT.Create("enemy_bt",
-    new BtSequence(
-        new BtCondition(bb => bb.GetOrDefault("hasTarget", false)),
-        new BtSelector(
-            new BtSequence(
-                new BtCondition(bb => bb.GetOrDefault("inRange", false)),
-                new BtAction(ctx => { Attack(); return BtStatus.Success; })
-            ),
-            new BtAction(ctx => { MoveToTarget(); return BtStatus.Running; })
-        )
-    )
-);
+Lumity.Blackboard   // BlackboardManager
 ```
 
 ## 自定义 Manager
@@ -92,6 +38,59 @@ Lumity.EnsureManager<MyCustomManager>();
 ```csharp
 GameLumity.Initialize();
 GameLumity.MyCustom.DoSomething();
+```
+
+## Blackboard（黑板）
+
+类型安全的键值存储，用于在系统间共享数据：
+
+```csharp
+var bb = Lumity.Blackboard.Create("player");
+bb.Set("hp", 100);
+bb.Set("name", "Hero");
+
+int hp = bb.Get<int>("hp");
+bool found = bb.TryGet<string>("name", out var name);
+
+// 类型安全键
+var hpKey = new BlackboardKey<int>("hp");
+bb.Set(hpKey, 200);
+int value = bb.Get(hpKey);
+```
+
+## FSM（有限状态机）
+
+支持层次结构、事件驱动和条件驱动转换的状态机：
+
+```csharp
+var config = new FsmConfig()
+    .AddState("idle", s => {
+        s.OnEnter = fsm => Debug.Log("进入 idle");
+        s.OnUpdate = (fsm, dt) => { };
+        s.OnExit = fsm => Debug.Log("离开 idle");
+    })
+    .AddState("run")
+    .SetInitialState("idle")
+    .AddTransition("idle", "run", new Transition { TriggerEvent = "go" });
+
+var fsm = Lumity.Fsm.Create(config);
+fsm.SendEvent("go");
+```
+
+## Behavior Tree（行为树）
+
+决策系统，支持组合节点、装饰器节点和叶子节点：
+
+```csharp
+var tree = Lumity.BT.Create("enemy_ai",
+    new BtSelector(
+        new BtSequence(
+            new BtCondition(bb => bb.Get<int>("hp") < 20),
+            new BtAction(ctx => { /* 逃跑 */ return BtStatus.Success; })
+        ),
+        new BtAction(ctx => { /* 攻击 */ return BtStatus.Success; })
+    )
+);
 ```
 
 ## Class Pool

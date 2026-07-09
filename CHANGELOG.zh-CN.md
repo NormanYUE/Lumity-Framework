@@ -2,14 +2,59 @@
 
 [English](CHANGELOG.md)
 
+## 0.9.0
+
+- 为 Blackboard、FSM 和 BehaviorTree 系统添加全面的单元测试（142 个测试）。
+- 添加 `CallbackActionNode` 测试辅助类，支持基于委托的行为树节点测试。
+
 ## 0.8.0
 
-- 添加 `BlackboardManager`，为 FSM 和 BT 系统提供共享的类型安全键值存储。
-- 添加 `FsmManager`，支持分层状态机（HFSM）、事件驱动和条件驱动转换、冷却时间，以及 ClassPool 集成。
-- 添加 `BehaviorTreeManager`，包含组合节点（Sequence、Selector、Parallel）、装饰节点（Inverter、Repeater、UntilFail、Cooldown）和叶子节点（Condition、Action、Wait）。
-- 添加 `Lumity.Blackboard`、`Lumity.BT` 门面属性。
-- 添加 `LumityBootstrap` 注册 BlackboardManager 和 BehaviorTreeManager。
-- 添加 `ManagerBase.Quitting` 保护，抑制应用关闭时的误报错误日志。
+- 添加 `IQuery<T>` 接口用于类型安全的配置查询。
+- 添加 `QueryCodeGenerator` 用于自动生成查询类代码。
+- 添加 `CustomFileGenerator` 用于用户可扩展的查询 partial 类。
+- 添加 `RowTypeScanner` 和 `ManagerScanner` 用于 Editor 时类型发现。
+- 添加 `QueryExportConfig` 和 `QueryExportErrorHandler` 用于健壮的导出流水线。
+- 添加 `QueryExportPanel` Editor 窗口用于可视化查询导出工作流。
+
+## 0.7.1
+
+- 修复 `TickCooldowns` GC 分配问题，复用静态缓冲区。
+- 修复 `FsmConfig` 异常类型以保持一致的错误处理。
+- 修复 `BlackboardKey<T>` 相等性和哈希码语义。
+- 修复 BehaviorTreeManager `TryGet<BlackboardManager>` 模式以实现优雅降级。
+
+## 0.7.0
+
+- 将 `BlackboardManager` 和 `BehaviorTreeManager` 添加到 `Lumity` 静态门面。
+- 在 `LumityBootstrap` 内置 Manager 中注册 `BlackboardManager` 和 `BehaviorTreeManager`。
+
+## 0.6.0
+
+- 添加 `Blackboard`，支持类型化键值存储和 `BlackboardKey<T>` 类型安全键。
+- 添加 `BlackboardManager` 用于 Blackboard 生命周期和基于宿主的批量清理。
+- 添加 `BtStatus`、`IBtNode`、`BtContext`、`BtTree` 核心行为树类型。
+- 添加 `BtSequence`、`BtSelector`、`BtParallel` 组合节点。
+- 添加 `BtInverter`、`BtRepeater`、`BtUntilFail`、`BtCooldown` 装饰器节点。
+- 添加 `BtCondition`、`BtAction`、`BtWait` 叶子节点。
+- 添加 `BehaviorTreeManager`，集成 `ClassPool` 和每棵树的 Blackboard 创建。
+
+## 0.5.0
+
+- 添加 `FsmConfig` 流式构建器用于 FSM 配置。
+- 添加 `FsmInstance`，支持层次状态机（HFSM）、事件驱动和条件驱动转换。
+- 添加 `StateNode`、`Transition`、`TransitionValidator` 核心 FSM 类型。
+- 添加 `FsmManager`，集成 `ClassPool` 和每个 FSM 的 Blackboard 创建。
+- 添加 `FsmStateChangedEvent` 用于 EventManager 集成。
+
+## 0.4.0
+
+- 添加 `TimerManager` 用于延迟和重复动作。
+- 添加 `TimerHandle` 用于跟踪定时器状态（已用时间、剩余时间、进度）。
+
+## 0.3.0
+
+- 添加 `SaveManager` 用于游戏存档/读档系统。
+- 添加 `SaveDataBase`，支持生命周期钩子（OnInitialize、OnBeforeSave、OnAfterLoad）。
 
 ## 0.2.0
 

@@ -18,63 +18,9 @@ Lumity.Resource     // ResourceManager
 Lumity.Scene        // SceneManager
 Lumity.Save         // SaveManager
 Lumity.Timer        // TimerManager
-Lumity.Blackboard   // BlackboardManager
+Lumity.Web          // WebManager
 Lumity.BT           // BehaviorTreeManager
-```
-
-## Blackboard
-
-Shared typed key-value storage for FSM and BT systems:
-
-```csharp
-var bb = Lumity.Blackboard.Create("enemy_001", "Fsm", "enemy_001");
-bb.Set("hp", 100);
-bb.Set("target", playerTransform);
-int hp = bb.Get<int>("hp");
-```
-
-## FSM
-
-Hierarchical state machine with event-driven and condition-driven transitions:
-
-```csharp
-var config = new FsmConfig()
-    .AddState("Idle", s => {
-        s.OnEnter = fsm => Debug.Log("Idle");
-        s.OnUpdate = (fsm, dt) => { /* ... */ };
-    })
-    .AddState("Chase")
-    .AddState("Attack")
-    .AddTransition("Idle", "Chase", new Transition {
-        Condition = bb => bb.GetOrDefault("enemyNearby", false)
-    })
-    .AddTransition("Chase", "Attack", new Transition {
-        TriggerEvent = "InRange"
-    })
-    .SetInitialState("Idle");
-
-var fsm = Lumity.Fsm.Create(config, "enemy_ai");
-fsm.SetCondition("enemyNearby", true);
-fsm.SendEvent("InRange");
-```
-
-## Behavior Tree
-
-Composites, decorators, and leaves for AI decision-making:
-
-```csharp
-var tree = Lumity.BT.Create("enemy_bt",
-    new BtSequence(
-        new BtCondition(bb => bb.GetOrDefault("hasTarget", false)),
-        new BtSelector(
-            new BtSequence(
-                new BtCondition(bb => bb.GetOrDefault("inRange", false)),
-                new BtAction(ctx => { Attack(); return BtStatus.Success; })
-            ),
-            new BtAction(ctx => { MoveToTarget(); return BtStatus.Running; })
-        )
-    )
-);
+Lumity.Blackboard   // BlackboardManager
 ```
 
 ## Custom Managers
@@ -92,6 +38,59 @@ For HybridCLR hot update projects, generate a project-side facade such as `GameL
 ```csharp
 GameLumity.Initialize();
 GameLumity.MyCustom.DoSomething();
+```
+
+## Blackboard
+
+Type-safe key-value store for sharing data between systems:
+
+```csharp
+var bb = Lumity.Blackboard.Create("player");
+bb.Set("hp", 100);
+bb.Set("name", "Hero");
+
+int hp = bb.Get<int>("hp");
+bool found = bb.TryGet<string>("name", out var name);
+
+// Type-safe keys
+var hpKey = new BlackboardKey<int>("hp");
+bb.Set(hpKey, 200);
+int value = bb.Get(hpKey);
+```
+
+## FSM (Finite State Machine)
+
+Hierarchical state machine with event-driven and condition-driven transitions:
+
+```csharp
+var config = new FsmConfig()
+    .AddState("idle", s => {
+        s.OnEnter = fsm => Debug.Log("Enter idle");
+        s.OnUpdate = (fsm, dt) => { };
+        s.OnExit = fsm => Debug.Log("Exit idle");
+    })
+    .AddState("run")
+    .SetInitialState("idle")
+    .AddTransition("idle", "run", new Transition { TriggerEvent = "go" });
+
+var fsm = Lumity.Fsm.Create(config);
+fsm.SendEvent("go");
+```
+
+## Behavior Tree
+
+Decision-making system with composites, decorators, and leaves:
+
+```csharp
+var tree = Lumity.BT.Create("enemy_ai",
+    new BtSelector(
+        new BtSequence(
+            new BtCondition(bb => bb.Get<int>("hp") < 20),
+            new BtAction(ctx => { /* flee */ return BtStatus.Success; })
+        ),
+        new BtAction(ctx => { /* attack */ return BtStatus.Success; })
+    )
+);
 ```
 
 ## Class Pool
