@@ -2,6 +2,17 @@
 
 [中文](CHANGELOG.zh-CN.md)
 
+## 0.10.0
+
+- Add `LogManager` with log level filtering (Verbose/Debug/Info/Warning/Error/Fatal).
+- Add `[LogModule]` attribute for custom module names in log output.
+- Add `this.LogXxx()` extension methods on `ManagerBase` for in-manager logging.
+- Add `LogManager.Xxx()` static API for non-Manager classes (BT nodes, FSM callbacks).
+- Add `ILogHandler` interface with `UnityLogHandler` default for extensible output.
+- Add recursion guard and lazy formatting (GC optimization) to LogManager.
+- Add timestamp to log format: `[HH:mm:ss.fff][LEVEL][Module] message`.
+- Replace all `Debug.Log/LogWarning/LogError/LogException` calls across framework with LogManager API.
+
 ## 0.9.0
 
 - Add comprehensive unit tests for Blackboard, FSM, and BehaviorTree systems (142 tests).

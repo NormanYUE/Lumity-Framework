@@ -2,6 +2,17 @@
 
 [English](CHANGELOG.md)
 
+## 0.10.0
+
+- 添加 `LogManager`，支持日志级别过滤（Verbose/Debug/Info/Warning/Error/Fatal）。
+- 添加 `[LogModule]` 特性用于自定义日志输出中的模块名。
+- 添加 `this.LogXxx()` 扩展方法，Manager 内部可直接调用。
+- 添加 `LogManager.Xxx()` 静态 API，供非 Manager 类（BT 节点、FSM 回调）使用。
+- 添加 `ILogHandler` 接口和 `LogManager` 默认输出处理器，支持可扩展输出。
+- 添加递归防护和延迟格式化（GC 优化）。
+- 添加时间戳到日志格式：`[HH:mm:ss.fff][LEVEL][Module] message`。
+- 将框架中所有 `Debug.Log/LogWarning/LogError/LogException` 调用替换为 LogManager API。
+
 ## 0.9.0
 
 - 为 Blackboard、FSM 和 BehaviorTree 系统添加全面的单元测试（142 个测试）。

@@ -19,6 +19,7 @@ Lumity.Scene        // SceneManager
 Lumity.Save         // SaveManager
 Lumity.Timer        // TimerManager
 Lumity.Web          // WebManager
+Lumity.Log          // LogManager
 Lumity.BT           // BehaviorTreeManager
 Lumity.Blackboard   // BlackboardManager
 ```
@@ -38,6 +39,25 @@ Lumity.EnsureManager<MyCustomManager>();
 ```csharp
 GameLumity.Initialize();
 GameLumity.MyCustom.DoSomething();
+```
+
+## 日志系统
+
+统一日志，支持级别过滤和模块控制：
+
+```csharp
+// Manager 内部（扩展方法，自动获取模块名）
+this.LogInfo("状态转换完成");
+this.LogWarning("重试 {0}/3", count);
+this.LogError("初始化失败");
+
+// 非 Manager 类（静态 API）
+LogManager.Info("AI", "敌人发现玩家");
+LogManager.Warning("Network", "请求超时");
+
+// 配置日志级别
+Lumity.Log.GlobalLevel = LogLevel.Debug;
+Lumity.Log.SetModuleLevel("FSM", LogLevel.Warning);
 ```
 
 ## Blackboard（黑板）

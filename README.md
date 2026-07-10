@@ -19,6 +19,7 @@ Lumity.Scene        // SceneManager
 Lumity.Save         // SaveManager
 Lumity.Timer        // TimerManager
 Lumity.Web          // WebManager
+Lumity.Log          // LogManager
 Lumity.BT           // BehaviorTreeManager
 Lumity.Blackboard   // BlackboardManager
 ```
@@ -38,6 +39,25 @@ For HybridCLR hot update projects, generate a project-side facade such as `GameL
 ```csharp
 GameLumity.Initialize();
 GameLumity.MyCustom.DoSomething();
+```
+
+## Logging
+
+Unified logging with level filtering and module-based control:
+
+```csharp
+// In a Manager (extension methods, auto module name)
+this.LogInfo("State transition complete");
+this.LogWarning("Retry {0}/3", count);
+this.LogError("Initialization failed");
+
+// In non-Manager classes (static API)
+LogManager.Info("AI", "Enemy spotted player");
+LogManager.Warning("Network", "Request timeout");
+
+// Configure log levels
+Lumity.Log.GlobalLevel = LogLevel.Debug;
+Lumity.Log.SetModuleLevel("FSM", LogLevel.Warning);
 ```
 
 ## Blackboard
